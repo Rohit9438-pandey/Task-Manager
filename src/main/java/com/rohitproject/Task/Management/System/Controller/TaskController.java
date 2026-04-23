@@ -26,7 +26,7 @@ public class TaskController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Task> getAll()
     {
       return taskService.getAllTask();
@@ -45,11 +45,6 @@ public class TaskController {
         return taskRepository.findByUserUsername(username);
     }
 
-    @PostMapping
-    public Task create(@RequestBody Task task)
-    {
-       return taskService.saveTask(task);
-    }
 
     @PostMapping
     public Task createTask(@RequestBody Task task, Authentication authentication) {
@@ -59,7 +54,7 @@ public class TaskController {
         User user = userRepository.findByUsername(username)
                 .orElseThrow();
 
-        task.setUser(user); // 🔥 link task to user
+        task.setUser(user);
 
         return taskRepository.save(task);
     }
